@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making">
+    <title>CoFlow: Coordinated Few-Step Flow</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #4169e1;
+            --orange: #ff4500;
+            --red: #d82121;
+            --ink: #111111;
+            --muted: #666666;
+            --panel: #f5f5f5;
+            --line: #e6e8ec;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--ink);
+            background: #ffffff;
+            padding-top: 45px;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: min(975px, calc(100% - 44px));
+            margin: 0 auto;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(65, 105, 225, 0.12);
+        }
+
+        .navbar nav {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        .navbar a {
+            padding: 12px 18px;
+            color: #808080;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .navbar a:hover {
+            color: orange;
+            border-bottom-color: orange;
+        }
+
+        .navbar a.active {
+            color: var(--red);
+            border-bottom-color: var(--red);
+        }
+
+        header {
+            padding: 34px 20px 24px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin: 0 auto 0.5rem;
+            font-weight: 800;
+            line-height: 1.125;
+            max-width: 1050px;
+            background: linear-gradient(45deg, red, var(--blue), var(--orange), var(--blue), red);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 5s ease infinite;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #000000;
+            font-weight: 700;
+            line-height: 1.125;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.45rem;
+            margin: 1.8rem 0 0.9rem;
+            color: #000000;
+            font-weight: 650;
+            line-height: 1.125;
+        }
+
+        p {
+            margin: 0.7rem 0;
+        }
+
+        a {
+            color: #5732d1;
+        }
+
+        .subtitle {
+            font-size: 2.05rem;
+            margin-bottom: 1.4rem;
+            color: #363636;
+            font-weight: 700;
+            line-height: 1.125;
+        }
+
+        .authors {
+            font-size: 21px;
+            margin-top: 1.3rem;
+            margin-bottom: 0.35rem;
+            line-height: 1.6;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .authors a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .authors a:hover {
+            color: var(--red);
+        }
+
+        .authors sup {
+            font-size: 0.62em;
+            vertical-align: super;
+            margin-left: 1px;
+        }
+
+        .affiliation {
+            font-size: 21px;
+            color: #006b1a;
+            margin-bottom: 0.45rem;
+            line-height: 1.6;
+            font-weight: 800;
+        }
+
+        .links {
+            margin-top: 1.35rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            min-height: 42px;
+            padding: 0.5em 1em;
+            background: #363636;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 999px;
+            font-weight: 450;
+            font-size: 1rem;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            line-height: 1.5;
+        }
+
+        .btn:hover {
+            background: #292929;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .btn svg {
+            width: 17px;
+            height: 17px;
+            stroke-width: 2.1;
+        }
+
+        .gradient-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blue) 20%, var(--orange) 50%, var(--blue) 80%, transparent);
+            margin: 0;
+            border: none;
+        }
+
+        .section,
+        .section-white,
+        .section-alternate {
+            padding: 34px 22px;
+            scroll-margin-top: 60px;
+        }
+
+        .section-white {
+            background: #ffffff;
+        }
+
+        .section-alternate {
+            background: linear-gradient(180deg, rgba(235, 235, 235, 0.3) 0%, rgba(235, 235, 235, 1) 50%, rgba(235, 235, 235, 0.3) 100%);
+        }
+
+        .content {
+            line-height: 1.7;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .tldr {
+            background: var(--panel);
+            padding: 25px;
+            border-radius: 6px;
+            border-left: 4px solid var(--blue);
+            margin: 18px 0;
+            font-size: 1rem;
+            line-height: 1.7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, #ffd700, #ffa500);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 750;
+            color: #000000;
+        }
+
+        .research-question {
+            color: #c7254e;
+            font-weight: 750;
+            font-size: 1.12em;
+            margin: 22px 0 15px;
+            padding: 18px 22px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-left: 4px solid #c7254e;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(199, 37, 78, 0.1);
+        }
+
+        .media-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .media-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #ffffff;
+        }
+
+        .media-container img:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+        }
+
+        .caption {
+            margin-top: 15px;
+            color: var(--muted);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .grid.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            border-color: var(--blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(65, 105, 225, 0.2);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+            color: #000000;
+        }
+
+        .card p {
+            margin: 0.4rem 0;
+            font-size: 0.93rem;
+            line-height: 1.45;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.7;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+
+        .paper-table-card {
+            margin: 24px 0 30px;
+        }
+
+        .paper-table-title {
+            margin: 0 0 6px;
+            font-size: 1.08rem;
+            font-weight: 750;
+            color: #000000;
+        }
+
+        .paper-table-caption {
+            margin: 0 0 10px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .table-note {
+            color: var(--muted);
+            font-size: 0.86rem;
+            margin-top: 8px;
+        }
+
+        .table-image-wrap {
+            padding: 10px;
+            background: #ffffff;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8edf3;
+        }
+
+        .paper-table-image {
+            display: block;
+            width: 100%;
+            min-width: 980px;
+            height: auto;
+            max-width: none;
+        }
+
+        .citation {
+            background: var(--panel);
+            padding: 20px;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.875em;
+            margin: 20px 0;
+            border-left: 4px solid var(--blue);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid #dbdbdb;
+        }
+
+        .resource-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 22px 0;
+        }
+
+        .resource-link {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 16px;
+            background: #ffffff;
+            border: 2px solid var(--line);
+            border-radius: 8px;
+            color: #000000;
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .resource-link:hover {
+            border-color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.12);
+        }
+
+        .resource-link svg {
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            color: var(--blue);
+            margin-top: 2px;
+        }
+
+        .resource-link strong {
+            display: block;
+            margin-bottom: 2px;
+            font-size: 1rem;
+        }
+
+        .resource-link span {
+            color: var(--muted);
+            font-size: 0.93rem;
+            line-height: 1.45;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            margin-top: 50px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 2.15rem; }
+            .subtitle { font-size: 1.55rem; }
+            .grid,
+            .grid.two,
+            .resource-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 76px; }
+            .container { width: min(100% - 30px, 975px); }
+            h1 { font-size: 1.78rem; }
+            h2 { font-size: 1.65rem; }
+            .subtitle { font-size: 1.32rem; }
+            .authors { font-size: 18px; }
+            .affiliation { font-size: 18px; }
+            .section,
+            .section-white,
+            .section-alternate {
+                padding: 24px 15px;
+                scroll-margin-top: 86px;
+            }
+            .links { gap: 8px; }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.86rem;
+            }
+            .navbar {
+                height: auto;
+                min-height: 76px;
+                padding: 0 8px;
+                justify-content: center;
+            }
+            .navbar nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                overflow-x: visible;
+            }
+            .navbar a {
+                padding: 8px 10px;
+                font-size: 12.5px;
+                border-bottom-width: 2px;
+            }
+            .tldr,
+            .research-question {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#method">Method</a>
+            <a href="#results">Results</a>
+            <a href="#coordination">Coordination</a>
+            <a href="#fewstep">Few-Step</a>
+            <a href="#conclusion">Conclusion</a>
+            <a href="#resources">Resources</a>
+            <a href="#citation">Citation</a>
+        </nav>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making</h1>
+            <div class="subtitle">Single-Pass Generation Without Sacrificing Coordination</div>
+
+            <div class="authors">
+                <a href="https://guowei-zou.github.io/Guowei-Zou/" target="_blank" rel="noopener">Guowei Zou</a><sup>1</sup>,
+                <span>Haitao Wang</span>,
+                <a href="https://github.com/BeiwenZhang" target="_blank" rel="noopener">Beiwen Zhang</a>,
+                <span>Baining Zhang</span>,
+                <a href="https://cse.sysu.edu.cn/teacher/WuHejun" target="_blank" rel="noopener">Hejun Wu</a>
+            </div>
+
+            <div class="affiliation">
+                <span>Sun Yat-sen University</span>
+            </div>
+
+            <div class="links">
+                <a href="assets/paper.pdf" class="btn" target="_blank" rel="noopener">
+                    <i data-lucide="file-text"></i><span>Paper</span>
+                </a>
+                <a href="https://github.com/Guowei-Zou/coflow-release" class="btn" target="_blank" rel="noopener">
+                    <i data-lucide="github"></i><span>Code</span>
+                </a>
+                <a href="https://huggingface.co/elainacamille/CoFlow-checkpoints" class="btn" target="_blank" rel="noopener">
+                    <i data-lucide="database"></i><span>Checkpoints</span>
+                </a>
+                <a href="#resources" class="btn">
+                    <i data-lucide="layers"></i><span>Datasets</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <hr class="gradient-divider">
+
+    <section class="section">
+        <div class="container">
+            <div class="content">
+                <div class="tldr">
+                    <strong>TL;DR:</strong> CoFlow learns a <strong>natively joint-coupled averaged velocity field</strong> for offline multi-agent reinforcement learning. It combines <span class="highlight">Coordinated Velocity Attention</span>, <span class="highlight">adaptive coordination gating</span>, and a <span class="highlight">finite-difference consistency surrogate</span> so coordinated multi-agent trajectories can be generated in 1--3 denoising steps without distilling a joint teacher into independent agents.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="overview" class="section-white">
+        <div class="container">
+            <h2>Overview</h2>
+            <div class="content">
+                <div class="media-container">
+                    <img src="assets/overview.png" alt="CoFlow overview and motivation">
+                    <div class="caption">
+                        CoFlow targets the quality-efficiency dilemma in offline multi-agent trajectory generation. Existing diffusion methods preserve coordination but require many denoising steps; existing few-step routes accelerate inference but weaken cross-agent coupling. CoFlow occupies the Pareto region where few-step inference and coordination preservation coexist.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="method" class="section-alternate">
+        <div class="container">
+            <h2>Method Overview</h2>
+            <div class="content">
+                <p>CoFlow addresses three linked obstacles in offline MARL generation:</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Challenge 1: Step Bottleneck</h3>
+                        <p>Diffusion and flow baselines often rely on repeated sampling steps, and each step repeats cross-agent attention.</p>
+                        <p><strong>CoFlow:</strong> a joint averaged velocity field supports single-pass shortcut sampling.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Challenge 2: Coordination Loss</h3>
+                        <p>Per-agent distillation and independent one-step velocity fields remove the communication path needed for cooperation.</p>
+                        <p><strong>CoFlow:</strong> CVA inserts cross-agent attention directly into the velocity field.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Challenge 3: Memory Cost</h3>
+                        <p>JVP-based consistency regularization is expensive when a model must represent multiple agents jointly.</p>
+                        <p><strong>CoFlow:</strong> two stop-gradient forward passes form a finite-difference surrogate.</p>
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/framework.png" alt="CoFlow architecture">
+                    <div class="caption">
+                        A weight-shared temporal U-Net embeds Coordinated Velocity Attention at every skip connection. Adaptive gates start at zero, so training begins from an independent-agent baseline and activates coordination only when gradients support it.
+                    </div>
+                </div>
+
+                <h3>Contributions</h3>
+                <ul>
+                    <li><strong>Joint-coupled velocity field:</strong> CVA with adaptive coordination gates keeps inter-agent communication inside each few-step forward pass.</li>
+                    <li><strong>Memory-efficient consistency:</strong> a finite-difference surrogate replaces second-order JVP backpropagation with ordinary forward passes.</li>
+                    <li><strong>Large-scale validation:</strong> 60 configurations across MPE, MA-MuJoCo, and SMAC evaluate returns, coordination probes, and denoising-step budgets.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="results" class="section">
+        <div class="container">
+            <h2>Benchmark Results</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ1: Can CoFlow match or exceed strong offline MARL baselines across continuous and discrete benchmarks?
+                </div>
+
+                <p><strong>Answer:</strong> Yes. CoFlow-C is best on most table entries, while CoFlow-D remains competitive under decentralized execution. The gains are most visible on coordination-heavy MPE tasks.</p>
+
+                <h3>Main Paper Tables</h3>
+                <p class="table-note">Full result tables are inserted from the paper screenshots. Bold marks the best method in each row, underline marks the second-best method, and tables scroll horizontally on narrow screens.</p>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 1: MPE</div>
+                    <p class="paper-table-caption">Continuous-action cooperative benchmark on Spread, Tag, and World.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_mpe.png" alt="Full MPE performance table from the CoFlow paper">
+                    </div>
+                </div>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 2: SMAC</div>
+                    <p class="paper-table-caption">Discrete-action StarCraft benchmark with partial observability.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_smac.png" alt="Full SMAC performance table from the CoFlow paper">
+                    </div>
+                </div>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 3: MA-MuJoCo</div>
+                    <p class="paper-table-caption">Continuous-action locomotion benchmark on 2xAnt and 4xAnt.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_mamujoco.png" alt="Full MA-MuJoCo performance table from the CoFlow paper">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="coordination" class="section-alternate">
+        <div class="container">
+            <h2>Coordination Evidence</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ2: Do the return gains flow through inter-agent coordination rather than stronger per-agent capacity?
+                </div>
+
+                <p><strong>Answer:</strong> Yes. Scaling the CVA gate produces a dose-response effect in both reward and landmark coverage, and disabling CVA hurts every tested MPE task.</p>
+
+                <div class="media-container">
+                    <img src="assets/coordination_evidence.png" alt="CVA coordination evidence">
+                    <div class="caption">
+                        CVA gate scans show monotonic improvements in reward and landmark coverage. Direct CVA-off ablations confirm that the gains come from cross-agent information flow.
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/attention_weights.png" alt="Learned CVA attention weights">
+                    <div class="caption">
+                        Learned attention matrices adapt to task structure: symmetric mixing in Spread, predator-focused exchange in Tag, and role-aware blocks in SMAC.
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/m2flow_diagram.png" alt="CoFlow centralized training and decentralized execution diagram">
+                    <div class="caption">
+                        CTDE view from the paper: centralized training uses all agents' observations, while decentralized execution masks other agents and preserves coordination through learned CVA patterns.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="fewstep" class="section">
+        <div class="container">
+            <h2>Few-Step Inference</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ3: When is single-pass inference enough?
+                </div>
+
+                <p><strong>Answer:</strong> On most configurations, one denoising step is already within the best 1--10 step performance range. CoFlow-base, which removes the finite-difference consistency surrogate, needs more refinement steps and is less stable at k = 1.</p>
+
+                <div class="grid two">
+                    <div class="card">
+                        <h3>Inference Budget</h3>
+                        <p>CoFlow generally saturates within 1--3 steps, including both centralized and decentralized execution variants.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Efficiency Driver</h3>
+                        <p>The finite-difference surrogate compresses multi-step refinement into the learned averaged velocity field.</p>
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/step_curve_mpe.png" alt="MPE denoising-step sweep">
+                    <div class="caption">MPE denoising-step sweep across tasks and data qualities.</div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/stat6_kstep_vs_best.png" alt="Per-configuration k-step reward versus best observed reward">
+                    <div class="caption">
+                        Per-configuration scatter from the paper: most CoFlow-C and CoFlow-D points sit near the diagonal already at low denoising budgets.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="conclusion" class="section-alternate">
+        <div class="container">
+            <h2>Conclusion</h2>
+            <div class="content">
+                <p>CoFlow shows that few-step multi-agent generation does not have to trade away coordination. By placing inter-agent coupling directly inside the averaged velocity field, the model can generate coordinated trajectories in one to a few denoising steps without distilling a joint teacher into independent agents.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Coordination Lives in the Model</h3>
+                        <p>CVA and adaptive gates keep cross-agent information flow active during generation instead of relying on a long sampling loop to recover cooperation.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Few Steps Are Enough</h3>
+                        <p>Across MPE, MA-MuJoCo, and SMAC, CoFlow reaches strong return quality with a one-to-three-step inference budget under both centralized and decentralized execution.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Training Stays Practical</h3>
+                        <p>The finite-difference consistency surrogate avoids memory-heavy JVP backpropagation, making consistency-regularized joint flow training feasible at multi-agent scale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="resources" class="section-white">
+        <div class="container">
+            <h2>Resources</h2>
+            <div class="content">
+                <p>Datasets are referenced from their original public sources. The checkpoint repository contains the manifest and configuration files for the 60 final CoFlow configurations; raw checkpoint uploads are staged and will be completed as bandwidth allows.</p>
+
+                <div class="resource-list">
+                    <a class="resource-link" href="https://huggingface.co/elainacamille/CoFlow-checkpoints" target="_blank" rel="noopener">
+                        <i data-lucide="database"></i>
+                        <div>
+                            <strong>CoFlow Checkpoints</strong>
+                            <span>Manifest, configs, and uploaded CoFlow-C / CoFlow-D checkpoint files for MPE, MA-MuJoCo, and SMAC.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://github.com/ling-pan/OMAR" target="_blank" rel="noopener">
+                        <i data-lucide="archive"></i>
+                        <div>
+                            <strong>MPE Datasets</strong>
+                            <span>Expert, Medium, Medium-Replay, and Random splits from the OMAR offline MARL benchmark.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://huggingface.co/datasets/Avada11/MADiff-Datasets" target="_blank" rel="noopener">
+                        <i data-lucide="hard-drive-download"></i>
+                        <div>
+                            <strong>MA-MuJoCo and SMAC Datasets</strong>
+                            <span>Public MADiff mirror of off-the-grid MARL datasets used for locomotion and StarCraft experiments.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://sites.google.com/view/og-marl" target="_blank" rel="noopener">
+                        <i data-lucide="network"></i>
+                        <div>
+                            <strong>OG-MARL Benchmark</strong>
+                            <span>Original off-the-grid MARL benchmark behind the MA-MuJoCo and SMAC offline splits.</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+<section id="citation" class="section">
+        <div class="container">
+            <h2>Citation</h2>
+            <div class="content">
+                <div class="citation">@misc{coflow2026,
+  title={CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making},
+  author={Zou, Guowei and Wang, Haitao and Zhang, Beiwen and Zhang, Baining and Wu, Hejun},
+  year={2026}
+}</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section class="section-white">
+        <div class="container">
+            <h2>Related Work</h2>
+            <div class="content">
+                <ul>
+                    <li><strong><a href="https://arxiv.org/abs/2305.17330" target="_blank" rel="noopener">MADiff</a></strong>: diffusion-based offline multi-agent trajectory generation.</li>
+                    <li><strong><a href="https://arxiv.org/abs/2302.00521" target="_blank" rel="noopener">OG-MARL</a></strong>: off-the-grid offline multi-agent benchmark suites.</li>
+                    <li><strong><a href="https://arxiv.org/abs/2111.11188" target="_blank" rel="noopener">OMAR</a></strong>: offline multi-agent actor-critic learning with first widely used MPE offline splits.</li>
+                    <li><strong><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a></strong>: the attention mechanism used as the basis for CVA.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CoFlow Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const navLinks = Array.from(document.querySelectorAll(".navbar a"));
+        const sections = navLinks
+            .map((link) => document.querySelector(link.getAttribute("href")))
+            .filter(Boolean);
+
+        function setActiveLink() {
+            const y = window.scrollY + 90;
+            let activeId = sections[0] ? sections[0].id : "";
+            for (const section of sections) {
+                if (section.offsetTop <= y) {
+                    activeId = section.id;
+                }
+            }
+            navLinks.forEach((link) => {
+                link.classList.toggle("active", link.getAttribute("href") === "#" + activeId);
+            });
+        }
+
+        window.addEventListener("scroll", setActiveLink, { passive: true });
+        setActiveLink();
+    </script>
+</body>
+</html>
