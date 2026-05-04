@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making">
+    <title>CoFlow: Method</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="nav-brand" href="index.html">CoFlow</a>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Overview</a>
+            <a href="method.html" class="active">Method</a>
+            <a href="results.html">Results</a>
+            <a href="conclusion.html">Conclusion</a>
+            <a href="video.html">video</a>
+            <a href="reference.html">reference</a>
+        </nav>
+    </div>
+
+    <main class="page-main">
+    <section id="method" class="section-alternate">
+        <div class="container">
+            <h2>Method Overview</h2>
+            <div class="content">
+                <p>CoFlow addresses three linked obstacles in offline MARL generation:</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Challenge 1: Step Bottleneck</h3>
+                        <p>Diffusion and flow baselines often rely on repeated sampling steps, and each step repeats cross-agent attention.</p>
+                        <p><strong>CoFlow:</strong> a joint averaged velocity field supports single-pass shortcut sampling.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Challenge 2: Coordination Loss</h3>
+                        <p>Per-agent distillation and independent one-step velocity fields remove the communication path needed for cooperation.</p>
+                        <p><strong>CoFlow:</strong> CVA inserts cross-agent attention directly into the velocity field.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Challenge 3: Memory Cost</h3>
+                        <p>JVP-based consistency regularization is expensive when a model must represent multiple agents jointly.</p>
+                        <p><strong>CoFlow:</strong> two stop-gradient forward passes form a finite-difference surrogate.</p>
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/framework.png" alt="CoFlow architecture">
+                    <div class="caption">
+                        A weight-shared temporal U-Net embeds Coordinated Velocity Attention at every skip connection. Adaptive gates start at zero, so training begins from an independent-agent baseline and activates coordination only when gradients support it.
+                    </div>
+                </div>
+
+                <h3>Contributions</h3>
+                <ul>
+                    <li><strong>Joint-coupled velocity field:</strong> CVA with adaptive coordination gates keeps inter-agent communication inside each few-step forward pass.</li>
+                    <li><strong>Memory-efficient consistency:</strong> a finite-difference surrogate replaces second-order JVP backpropagation with ordinary forward passes.</li>
+                    <li><strong>Large-scale validation:</strong> 60 configurations across MPE, MA-MuJoCo, and SMAC evaluate returns, coordination probes, and denoising-step budgets.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CoFlow Project. All rights reserved.</p>
+        </div>
+    </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making">
+    <title>CoFlow: Results</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="nav-brand" href="index.html">CoFlow</a>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Overview</a>
+            <a href="method.html">Method</a>
+            <a href="results.html" class="active">Results</a>
+            <a href="conclusion.html">Conclusion</a>
+            <a href="video.html">video</a>
+            <a href="reference.html">reference</a>
+        </nav>
+    </div>
+
+    <main class="page-main">
+    <section id="results" class="section">
+        <div class="container">
+            <h2>Benchmark Results</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ1: Can CoFlow match or exceed strong offline MARL baselines across continuous and discrete benchmarks?
+                </div>
+
+                <p><strong>Answer:</strong> Yes. CoFlow-C is best on most table entries, while CoFlow-D remains competitive under decentralized execution. The gains are most visible on coordination-heavy MPE tasks.</p>
+
+                <h3>Main Result Tables</h3>
+                <p class="table-note">Full result tables are inserted as screenshots. Bold marks the best method in each row, underline marks the second-best method, and tables scroll horizontally on narrow screens.</p>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 1: MPE</div>
+                    <p class="paper-table-caption">Continuous-action cooperative benchmark on Spread, Tag, and World.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_mpe.png" alt="Full MPE performance table from the CoFlow paper">
+                    </div>
+                </div>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 2: SMAC</div>
+                    <p class="paper-table-caption">Discrete-action StarCraft benchmark with partial observability.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_smac.png" alt="Full SMAC performance table from the CoFlow paper">
+                    </div>
+                </div>
+
+                <div class="paper-table-card">
+                    <div class="paper-table-title">Table 3: MA-MuJoCo</div>
+                    <p class="paper-table-caption">Continuous-action locomotion benchmark on 2xAnt and 4xAnt.</p>
+                    <div class="table-wrap table-image-wrap">
+                        <img class="paper-table-image" src="assets/table_mamujoco.png" alt="Full MA-MuJoCo performance table from the CoFlow paper">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="coordination" class="section-alternate">
+        <div class="container">
+            <h2>Coordination Evidence</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ2: Do the return gains flow through inter-agent coordination rather than stronger per-agent capacity?
+                </div>
+
+                <p><strong>Answer:</strong> Yes. Scaling the CVA gate produces a dose-response effect in both reward and landmark coverage, and disabling CVA hurts every tested MPE task.</p>
+
+                <div class="media-container">
+                    <img src="assets/coordination_evidence.png" alt="CVA coordination evidence">
+                    <div class="caption">
+                        CVA gate scans show monotonic improvements in reward and landmark coverage. Direct CVA-off ablations confirm that the gains come from cross-agent information flow.
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/attention_weights.png" alt="Learned CVA attention weights">
+                    <div class="caption">
+                        Learned attention matrices adapt to task structure: symmetric mixing in Spread, predator-focused exchange in Tag, and role-aware blocks in SMAC.
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/coflow_diagram.png" alt="CoFlow centralized training and decentralized execution diagram">
+                    <div class="caption">
+                        CTDE view from the paper: centralized training uses all agents' observations, while decentralized execution masks other agents and preserves coordination through learned CVA patterns.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section id="fewstep" class="section">
+        <div class="container">
+            <h2>Few-Step Inference</h2>
+            <div class="content">
+                <div class="research-question">
+                    RQ3: When is single-pass inference enough?
+                </div>
+
+                <p><strong>Answer:</strong> On most configurations, one denoising step is already within the best 1--10 step performance range. CoFlow-base, which removes the finite-difference consistency surrogate, needs more refinement steps and is less stable at k = 1.</p>
+
+                <div class="grid two">
+                    <div class="card">
+                        <h3>Inference Budget</h3>
+                        <p>CoFlow generally saturates within 1--3 steps, including both centralized and decentralized execution variants.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Efficiency Driver</h3>
+                        <p>The finite-difference surrogate compresses multi-step refinement into the learned averaged velocity field.</p>
+                    </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/step_curve_mpe.png" alt="MPE denoising-step sweep">
+                    <div class="caption">MPE denoising-step sweep across tasks and data qualities.</div>
+                </div>
+
+                <div class="media-container">
+                    <img src="assets/stat6_kstep_vs_best.png" alt="Per-configuration k-step reward versus best observed reward">
+                    <div class="caption">
+                        Per-configuration scatter from the paper: most CoFlow-C and CoFlow-D points sit near the diagonal already at low denoising budgets.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CoFlow Project. All rights reserved.</p>
+        </div>
+    </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

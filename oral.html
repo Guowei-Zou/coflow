@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="10-minute oral presentation for CoFlow">
+  <title>CoFlow Oral Presentation</title>
+  <style>
+    :root {
+      --ink: #111318;
+      --muted: #5e6675;
+      --line: #d9dde6;
+      --paper: #ffffff;
+      --soft: #f4f6f9;
+      --blue: #3157c7;
+      --teal: #07847e;
+      --red: #c7352c;
+      --amber: #d48116;
+      --green: #267145;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #e9edf4;
+      color: var(--ink);
+      font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .deck {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: var(--paper);
+      box-shadow: 0 20px 80px rgba(24, 32, 48, 0.28);
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      padding: 4.6% 5.2% 4.2%;
+      background: var(--paper);
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      gap: 1.7%;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 9px;
+      background: linear-gradient(90deg, var(--blue), var(--teal), var(--amber), var(--red));
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: clamp(11px, 1.15vw, 17px);
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(34px, 4.9vw, 76px);
+      line-height: 1.02;
+      font-weight: 850;
+      max-width: 15em;
+    }
+
+    h2 {
+      font-size: clamp(31px, 3.75vw, 58px);
+      line-height: 1.04;
+      font-weight: 830;
+      max-width: 15.6em;
+    }
+
+    h3 {
+      font-size: clamp(20px, 2vw, 31px);
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      font-size: clamp(18px, 1.75vw, 28px);
+      line-height: 1.38;
+      color: var(--muted);
+      max-width: 42em;
+    }
+
+    .layout {
+      display: grid;
+      gap: 3.2%;
+      flex: 1 1 0;
+      min-height: 0;
+      align-items: stretch;
+      overflow: hidden;
+    }
+
+    .two-col {
+      grid-template-columns: 0.68fr 1.32fr;
+    }
+
+    .two-col-even {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(12px, 1.4vw, 23px);
+    }
+
+    .slide > .stack {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      padding: clamp(14px, 1.45vw, 24px);
+    }
+
+    .card.white {
+      background: var(--paper);
+    }
+
+    .card strong {
+      color: var(--ink);
+      font-weight: 850;
+    }
+
+    .large-claim {
+      font-size: clamp(24px, 2.5vw, 39px);
+      line-height: 1.16;
+      font-weight: 830;
+      max-width: 17em;
+    }
+
+    .body-text {
+      font-size: clamp(18px, 1.55vw, 25px);
+      line-height: 1.34;
+      color: var(--muted);
+    }
+
+    .small-text {
+      font-size: clamp(14px, 1.05vw, 18px);
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(10px, 1.1vw, 18px);
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(12px, 1.3vw, 21px);
+      background: #fff;
+    }
+
+    .metric .value {
+      font-size: clamp(26px, 3.2vw, 50px);
+      line-height: 1;
+      font-weight: 850;
+      color: var(--blue);
+    }
+
+    .metric .label {
+      margin-top: 8px;
+      font-size: clamp(13px, 1.05vw, 18px);
+      line-height: 1.25;
+      color: var(--muted);
+    }
+
+    .figure {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 7px;
+      align-items: center;
+      justify-items: center;
+      overflow: hidden;
+    }
+
+    .figure img,
+    .figure video {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .takeaway {
+      border-left: 6px solid var(--blue);
+      background: #f7f9fd;
+      padding: clamp(10px, 1vw, 16px) clamp(14px, 1.35vw, 22px);
+      border-radius: 8px;
+      font-size: clamp(17px, 1.45vw, 24px);
+      line-height: 1.22;
+      color: var(--ink);
+      font-weight: 780;
+    }
+
+    .takeaway strong {
+      color: var(--blue);
+    }
+
+    .title-subline {
+      font-size: clamp(17px, 1.45vw, 23px);
+      line-height: 1.3;
+      color: var(--muted);
+      max-width: 54em;
+    }
+
+    .figure.no-border img,
+    .figure.no-border video {
+      border: 0;
+      border-radius: 0;
+    }
+
+    .caption {
+      width: 100%;
+      font-size: clamp(11px, 0.86vw, 15px);
+      line-height: 1.25;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .image-band {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 9px;
+      min-height: 0;
+    }
+
+    .image-band img {
+      width: 100%;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .formula {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: clamp(17px, 1.45vw, 24px);
+      line-height: 1.35;
+      background: #111318;
+      color: #fff;
+      border-radius: 8px;
+      padding: clamp(14px, 1.6vw, 25px);
+      white-space: pre-wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 4px 11px;
+      background: #fff;
+      color: var(--muted);
+      font-size: clamp(12px, 1vw, 17px);
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .flow-demo {
+      position: relative;
+      min-height: 390px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(49, 87, 199, 0.08), transparent 48%, rgba(7, 132, 126, 0.09)),
+        #fff;
+      overflow: hidden;
+    }
+
+    .agent {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 850;
+      font-size: 19px;
+      box-shadow: 0 10px 25px rgba(17, 19, 24, 0.17);
+    }
+
+    .a1 { left: 16%; top: 22%; background: var(--blue); }
+    .a2 { left: 19%; bottom: 23%; background: var(--teal); }
+    .a3 { right: 18%; top: 30%; background: var(--amber); }
+    .a4 { right: 18%; bottom: 22%; background: var(--red); }
+
+    .flow-line {
+      position: absolute;
+      height: 3px;
+      background: var(--ink);
+      opacity: 0.3;
+      transform-origin: left center;
+    }
+
+    .line-1 { left: 27%; top: 33%; width: 41%; transform: rotate(7deg); }
+    .line-2 { left: 29%; bottom: 31%; width: 39%; transform: rotate(-9deg); }
+    .line-3 { left: 27%; top: 49%; width: 45%; transform: rotate(0deg); opacity: 0.13; }
+
+    .pulse {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulseMove 3.4s ease-in-out infinite;
+    }
+
+    .pulse.two {
+      background: var(--teal);
+      animation-delay: 0.8s;
+    }
+
+    .pulse.three {
+      background: var(--amber);
+      animation-delay: 1.6s;
+    }
+
+    @keyframes pulseMove {
+      0% { left: 28%; top: 32%; opacity: 0; }
+      15% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { left: 67%; top: 48%; opacity: 0; }
+    }
+
+    .gate {
+      position: absolute;
+      left: 45%;
+      top: 41%;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      border: 6px solid rgba(49, 87, 199, 0.18);
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-weight: 850;
+      background: rgba(255, 255, 255, 0.86);
+      animation: gateOpen 4.2s ease-in-out infinite;
+    }
+
+    @keyframes gateOpen {
+      0%, 20% { transform: scale(0.78); border-color: rgba(49, 87, 199, 0.1); }
+      50%, 85% { transform: scale(1); border-color: rgba(49, 87, 199, 0.52); }
+      100% { transform: scale(0.78); border-color: rgba(49, 87, 199, 0.1); }
+    }
+
+    .step-strip {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      align-items: end;
+    }
+
+    .step {
+      height: 58px;
+      border-radius: 6px;
+      background: #dce3f6;
+      border: 1px solid #cbd5ef;
+      display: grid;
+      place-items: center;
+      font-weight: 850;
+      color: var(--blue);
+      font-size: clamp(13px, 1.1vw, 18px);
+    }
+
+    .step.hot {
+      height: 95px;
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .step.good {
+      height: 82px;
+      background: #cdebe4;
+      color: var(--teal);
+      border-color: #b3ddd4;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .video-card {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .video-card video {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #000;
+    }
+
+    .notes {
+      display: none;
+    }
+
+    .hud {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid rgba(217, 221, 230, 0.8);
+      color: var(--muted);
+      font-size: 13px;
+      z-index: 40;
+    }
+
+    .progress {
+      height: 5px;
+      background: #dce3f6;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+    }
+
+    .speaker-panel {
+      position: absolute;
+      right: 16px;
+      bottom: 20px;
+      width: min(520px, 42vw);
+      max-height: 42%;
+      overflow: auto;
+      display: none;
+      padding: 15px 17px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 12px 45px rgba(17, 19, 24, 0.18);
+      z-index: 50;
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .speaker-panel.visible {
+      display: block;
+    }
+
+    .speaker-panel strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+      .slide {
+        padding: 6.5% 5.2% 6.5%;
+      }
+
+      .two-col,
+      .two-col-even,
+      .three-col,
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      .speaker-panel {
+        width: calc(100% - 32px);
+        max-height: 38%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="CoFlow oral presentation deck">
+    <div class="hud">
+      <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+      <div id="slideCounter">1 / 14</div>
+      <div id="timeCounter">10:00</div>
+    </div>
+
+    <section class="slide active" data-duration="35">
+      <div class="eyebrow">NeurIPS 2026 oral draft</div>
+      <h1>CoFlow: Coordinated Few-Step Flow</h1>
+      <p class="title-subline">Offline multi-agent trajectory generation in 1-3 denoising steps, without giving up coordination.</p>
+      <div class="layout">
+        <div class="figure no-border">
+          <img src="assets/overview.png" alt="CoFlow motivation and overview">
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> CoFlow moves coordination into the velocity field, so few-step inference remains coordinated.</p>
+      <aside class="notes">
+        Today I will present CoFlow, a coordinated few-step flow model for offline multi-agent decision making. The short version is this: generative models are very strong for offline multi-agent reinforcement learning, but they are usually slow because sampling takes many denoising steps. CoFlow shows that we can reduce sampling to one to three steps while preserving the cross-agent coordination that makes these models useful in the first place.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="40">
+      <div class="eyebrow">Motivation</div>
+      <h2>Generative MARL is strong, but inference is expensive.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <p class="body-text">Diffusion and flow policies model multimodal joint behavior, but multi-step samplers repeatedly run cross-agent attention.</p>
+          <div class="metric-row">
+            <div class="metric">
+              <div class="value">N</div>
+              <div class="label">agents exchange information</div>
+            </div>
+            <div class="metric">
+              <div class="value">K</div>
+              <div class="label">denoising steps compound cost</div>
+            </div>
+            <div class="metric">
+              <div class="value">N x K</div>
+              <div class="label">deployment bottleneck</div>
+            </div>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="assets/overview.png" alt="Quality and efficiency dilemma in CoFlow">
+          <div class="caption">The central dilemma: preserve joint coordination, or reduce sampling steps?</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> The deployment bottleneck is not only sampling speed; it is preserving joint behavior while reducing steps.</p>
+      <aside class="notes">
+        The motivation starts from a practical bottleneck. In offline MARL, the data often contains several plausible joint strategies. Generative models are attractive because they can represent these multimodal joint-action distributions. The problem is that strong diffusion and flow baselines normally generate trajectories through many iterative steps. At each step, the model has to reason across agents. So the runtime cost grows with both the number of agents and the number of sampling steps. This is a real deployment issue for cooperative control.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="35">
+      <div class="eyebrow">The trade-off</div>
+      <h2>Naive few-step acceleration removes the communication path.</h2>
+      <div class="layout two-col-even">
+        <div class="card white stack">
+          <h3>Naive acceleration</h3>
+          <p class="large-claim">Distill the joint model into independent students, or run one-step generation per agent.</p>
+          <p class="body-text">This reduces steps, but removes inference-time communication.</p>
+        </div>
+        <div class="card stack">
+          <h3>What goes wrong</h3>
+          <p class="large-claim">Coordination cannot be recovered after the velocity field has been factorized.</p>
+          <p class="body-text">Single-pass inference has no repeated attention rounds to repair missing couplings.</p>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> Once the velocity field is factorized by agent, one-step inference cannot recover coordination afterward.</p>
+      <aside class="notes">
+        Existing few-step routes create a coordination trade-off. One route distills a joint teacher into per-agent students. Another route applies a single-agent one-step model independently to each agent. Both are efficient, but both weaken the very mechanism that made the joint generator strong. Multi-step samplers can accumulate cooperation over repeated attention rounds. In one-step inference, that repeated communication is gone. So if the velocity field itself is not jointly coupled, coordination is already lost.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="35">
+      <div class="eyebrow">Contributions</div>
+      <h2>CoFlow contributes three pieces for coordinated few-step MARL.</h2>
+      <div class="layout three-col">
+        <div class="card white stack">
+          <h3>1. Native joint coupling</h3>
+          <p class="body-text">Coordinated Velocity Attention embeds cross-agent communication directly into the averaged velocity field.</p>
+        </div>
+        <div class="card white stack">
+          <h3>2. Practical consistency training</h3>
+          <p class="body-text">A finite-difference surrogate replaces memory-heavy JVP backpropagation with ordinary forward passes.</p>
+        </div>
+        <div class="card white stack">
+          <h3>3. Broad empirical validation</h3>
+          <p class="body-text">Large-scale experiments and coordination probes verify strong 1-3 step performance across MPE, SMAC, and MA-MuJoCo.</p>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> The method, training objective, and evidence all target the same question: few-step inference without coordination loss.</p>
+      <aside class="notes">
+        The paper contributes three main pieces. First, the model contribution is native joint coupling: Coordinated Velocity Attention places cross-agent communication inside the averaged velocity field itself. Second, the training contribution is a finite-difference consistency surrogate that avoids memory-heavy Jacobian-vector-product backpropagation. Third, the empirical contribution is a broad evaluation with coordination probes, showing that CoFlow reaches strong one-to-three-step performance across MPE, SMAC, and MA-MuJoCo.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="50">
+      <div class="eyebrow">Core idea</div>
+      <h2>Make the one-step velocity field natively joint-coupled.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <p class="body-text">CoFlow decomposes generation into agent-wise trajectory modeling plus a learned coordination correction.</p>
+          <div class="formula">u_theta^i = u_ind^i + u_coord^i</div>
+          <p class="body-text">The coordination term is not distilled afterward. It is built directly into the averaged velocity field.</p>
+        </div>
+        <div class="flow-demo" aria-label="Animated coordination sketch">
+          <div class="flow-line line-1"></div>
+          <div class="flow-line line-2"></div>
+          <div class="flow-line line-3"></div>
+          <div class="pulse"></div>
+          <div class="pulse two"></div>
+          <div class="pulse three"></div>
+          <div class="agent a1">A1</div>
+          <div class="agent a2">A2</div>
+          <div class="agent a3">A3</div>
+          <div class="agent a4">A4</div>
+          <div class="gate">gate</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> CoFlow treats coordination as a first-class term inside the velocity prediction.</p>
+      <aside class="notes">
+        CoFlow takes the opposite approach. Instead of first learning a joint generator and then compressing it into independent agents, we build coordination into the velocity field from the beginning. For each agent, the predicted velocity has two parts: an individual term and a coordination correction. The individual term captures that agent's own trajectory tendency. The coordination correction captures teammate information. This is the key design choice: in one forward pass, the model still has a native path for cross-agent communication.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="50">
+      <div class="eyebrow">Architecture</div>
+      <h2>CVA inserts coordination at every U-Net skip connection.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <div class="card white">
+            <h3>Coordinated Velocity Attention</h3>
+            <p class="body-text">Shared query, key, and value projections exchange information across agents inside the velocity network.</p>
+          </div>
+          <div class="card">
+            <h3>Adaptive coordination gating</h3>
+            <p class="body-text">Each gate starts at zero, so training begins as an independent-agent baseline and turns on coupling only when useful.</p>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="assets/framework.png" alt="CoFlow architecture overview">
+          <div class="caption">Weight-shared temporal U-Net with Coordinated Velocity Attention and a shared inverse-dynamics head.</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> The model starts independent, then learns exactly where cross-agent coupling helps.</p>
+      <aside class="notes">
+        Architecturally, CoFlow uses a weight-shared temporal U-Net. The important addition is Coordinated Velocity Attention, or CVA. We insert CVA at every skip connection, so cross-agent information is available at multiple resolutions of the trajectory representation. We also add an adaptive coordination gate at each layer. The gate is initialized to zero. This matters because the model does not have to coordinate by default. It starts from a stable independent baseline and learns to activate cross-agent exchange only where the gradient signal supports it.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="40">
+      <div class="eyebrow">Training</div>
+      <h2>Train the averaged velocity without second-order memory.</h2>
+      <div class="layout two-col-even">
+        <div class="stack">
+          <h3>Why this matters</h3>
+          <p class="body-text">The standard consistency target uses a Jacobian-vector product, which is memory-heavy for multi-agent trajectories.</p>
+          <div class="formula">JVP target:
+u(z,r,t) approx v_cond - (t-r) * d u / d t</div>
+        </div>
+        <div class="stack">
+          <h3>CoFlow surrogate</h3>
+          <p class="body-text">Two ordinary forward passes replace second-order backpropagation through the velocity field.</p>
+          <div class="formula">V_theta = u(z,0,r)
+        + (t-r) stopgrad[u(z,0,t)-u(z,0,r)]</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> The finite-difference target keeps consistency training feasible for multi-agent scale.</p>
+      <aside class="notes">
+        The second part is training. To make one-step or few-step generation work, the averaged velocity field must be accurate. A standard consistency formulation involves a Jacobian-vector product through the velocity network, and backpropagating through that object is memory-expensive at multi-agent scale. CoFlow replaces it with a finite-difference consistency surrogate. We use two ordinary forward passes, detach the finite-difference correction, and backpropagate only through the reference-time velocity. This keeps the training objective practical on a single GPU while still nudging the model toward a consistent averaged velocity.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="35">
+      <div class="eyebrow">Theory</div>
+      <h2>The decomposition gives measurable coordination knobs.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <p class="body-text">The joint velocity equals per-agent generation plus a bounded coordination correction.</p>
+          <div class="formula">joint velocity
+= per-agent terms
++ coordination correction</div>
+        </div>
+        <div class="stack">
+          <div class="card white">
+            <h3>Gate magnitude</h3>
+            <p class="body-text">How strongly each CVA layer permits cross-agent communication.</p>
+          </div>
+          <div class="card white">
+            <h3>Feature diversity</h3>
+            <p class="body-text">How much agent features differ before attention is applied.</p>
+          </div>
+          <p class="body-text">Both are readable from a trained model, so the theory leads directly to diagnostics.</p>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> CoFlow's coordination correction is controlled by learned gates and feature diversity.</p>
+      <aside class="notes">
+        The theory formalizes this design. We show that the joint velocity can be written as per-agent velocity terms plus a coordination correction. The size of that correction is controlled by two quantities that we can inspect after training: the learned gate magnitude and the diversity of cross-agent features. This gives the method a useful interpretation. CoFlow is not simply adding capacity. It is adding a controlled coordination channel, and we can measure whether that channel is actually being used.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="55">
+      <div class="eyebrow">Main results</div>
+      <h2>Across 60 configurations, CoFlow matches or surpasses strong baselines.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <div class="metric">
+            <div class="value">MPE</div>
+            <div class="label">continuous cooperative control</div>
+          </div>
+          <div class="metric">
+            <div class="value">SMAC</div>
+            <div class="label">partial-observation combat tasks</div>
+          </div>
+          <div class="metric">
+            <div class="value">MA-MuJoCo</div>
+            <div class="label">multi-agent locomotion</div>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="assets/table_mpe.png" alt="MPE result table">
+          <div class="caption">Representative MPE table; the full benchmark suite also includes SMAC and MA-MuJoCo.</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> CoFlow improves inference efficiency without paying an accuracy penalty.</p>
+      <aside class="notes">
+        Empirically, we evaluate CoFlow across sixty configurations spanning MPE, SMAC, and MA-MuJoCo. The comparison includes value-based offline MARL methods, transformer baselines, diffusion baselines, and prior flow baselines. The main message from these tables is that CoFlow is not trading away performance for speed. It matches or surpasses the strongest baselines across these benchmark families. This is important because the method is designed for efficient inference, but the quality is competitive with models that require many more sampling steps.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="55">
+      <div class="eyebrow">Coordination evidence</div>
+      <h2>The gains track coordination, not just model size.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <div class="card white">
+            <h3>Dose response</h3>
+            <p class="body-text">Increasing the CVA gate scale changes return and coverage in a structured way.</p>
+          </div>
+          <div class="card white">
+            <h3>CVA on vs. off</h3>
+            <p class="body-text">Removing the coordination channel reduces coordinated task performance.</p>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="assets/coordination_evidence.png" alt="Coordination evidence from CVA">
+          <div class="caption">Coordination probes on MPE tasks under the centralized CoFlow-C variant.</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> Turning the coordination channel up or down produces measurable behavioral changes.</p>
+      <aside class="notes">
+        To check whether the improvement really comes from coordination, we run three coordination probes. First, we sweep the CVA gate scale. If CVA is a meaningful coordination mechanism, changing the gate should change coordinated behavior. That is what we observe. Second, we measure landmark coverage, where agents need to spread rather than collapse onto the same target. Third, we compare CVA-on and CVA-off variants. These probes show that the performance gains are tied to inter-agent exchange, not merely to extra per-agent capacity.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="40">
+      <div class="eyebrow">Diagnostics</div>
+      <h2>Learned attention and gates adapt to the task.</h2>
+      <div class="layout two-col-even">
+        <div class="figure">
+          <img src="assets/attention_weights.png" alt="Learned attention weights">
+          <div class="caption">Learned cross-agent attention matrices show nontrivial interaction patterns.</div>
+        </div>
+        <div class="figure">
+          <img src="assets/gamma_signs.png" alt="Learned gamma signs">
+          <div class="caption">Learned gates adapt by task: coverage and pursuit favor different coordination signs.</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> CVA learns structured, task-dependent coordination rather than a uniform residual shortcut.</p>
+      <aside class="notes">
+        The learned diagnostics also support the coordination story. The attention matrices are not uniform placeholders. They show structured cross-agent interaction patterns that differ across environments. The learned gates also adapt by task. For example, coverage tasks and predator-prey pursuit tasks prefer different early-layer gate signs. This is exactly what we would expect if the gate is controlling a task-dependent coordination correction rather than acting as a generic residual scale.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="50">
+      <div class="eyebrow">Few-step inference</div>
+      <h2>Single-pass inference is often enough.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <p class="body-text">Across the denoising-step sweep, CoFlow variants reach near-best reward within 1-3 steps on every configuration.</p>
+          <div class="step-strip" aria-label="Denoising step sketch">
+            <div class="step hot">1</div>
+            <div class="step good">2</div>
+            <div class="step good">3</div>
+            <div class="step">4</div>
+            <div class="step">5</div>
+            <div class="step">6</div>
+            <div class="step">7</div>
+            <div class="step">8</div>
+            <div class="step">9</div>
+            <div class="step">10</div>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="assets/stat6_kstep_vs_best.png" alt="K-step inference compared with best observed reward">
+          <div class="caption">Points near the diagonal mean a small denoising budget already matches the best observed reward.</div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> Once coordination is inside the velocity field, repeated denoising is no longer the source of cooperation.</p>
+      <aside class="notes">
+        The key efficiency result is the denoising-step sweep. We compare reward at different inference budgets against the best reward observed over the full sweep. Points close to the diagonal mean that a small number of steps already matches the best available rollout. For CoFlow, one to three steps are enough across the full evaluation set. This is the central payoff: the model preserves coordination inside the velocity field, so it does not need many repeated denoising rounds to rebuild coordination at inference time.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="40">
+      <div class="eyebrow">Qualitative demos</div>
+      <h2>Coordinated behavior appears across particle, tactical, and locomotion tasks.</h2>
+      <div class="stack">
+        <div class="video-grid">
+          <div class="video-card">
+            <video src="assets/videos/web_demos/mpe_spread_quality_compare.mp4" muted loop playsinline controls></video>
+            <div class="caption">MPE Spread</div>
+          </div>
+          <div class="video-card">
+            <video src="assets/videos/web_demos/smac_3m_quality_compare.mp4" muted loop playsinline controls></video>
+            <div class="caption">SMAC 3m</div>
+          </div>
+          <div class="video-card">
+            <video src="assets/videos/web_demos/mamujoco_4ant_quality_compare.mp4" muted loop playsinline controls></video>
+            <div class="caption">MA-MuJoCo 4xAnt</div>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Conclusion:</strong> The same joint velocity mechanism supports different forms of multi-agent coordination.</p>
+      <aside class="notes">
+        Finally, the qualitative demos give an intuitive view of the behavior. In MPE, coordination means agents spread across landmarks instead of duplicating effort. In SMAC, coordination means units make compatible tactical choices under partial observability. In MA-MuJoCo, it means coupled locomotion remains stable across agents. The same mechanism, a joint averaged velocity field with gated cross-agent attention, supports these different forms of coordination.
+      </aside>
+    </section>
+
+    <section class="slide" data-duration="40">
+      <div class="eyebrow">Takeaway</div>
+      <h2>Efficiency and coordination do not have to be opposing goals.</h2>
+      <div class="layout two-col">
+        <div class="stack">
+          <p class="subtitle">CoFlow makes few-step offline MARL possible by moving coordination into the velocity field itself.</p>
+        </div>
+        <div class="stack">
+          <div class="card white">
+            <h3>1. Native joint coupling</h3>
+            <p class="body-text">CVA preserves cross-agent communication in one forward pass.</p>
+          </div>
+          <div class="card white">
+            <h3>2. Practical training</h3>
+            <p class="body-text">Finite differences avoid memory-heavy second-order graphs.</p>
+          </div>
+          <div class="card white">
+            <h3>3. Few-step deployment</h3>
+            <p class="body-text">One to three denoising steps are enough across the benchmark suite.</p>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Final conclusion:</strong> CoFlow reaches strong offline MARL performance in 1-3 denoising steps by making coordination native to the generator.</p>
+      <aside class="notes">
+        To conclude, CoFlow shows that the apparent efficiency-coordination trade-off is not necessary. The main requirement is that coordination must live inside the one-step velocity field, rather than being accumulated only through repeated sampling or removed by per-agent factorization. With Coordinated Velocity Attention, adaptive gates, and a finite-difference consistency surrogate, CoFlow reaches strong offline MARL performance with one to three denoising steps. Thank you.
+      </aside>
+    </section>
+
+    <div id="speakerPanel" class="speaker-panel" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const progressBar = document.getElementById("progressBar");
+    const slideCounter = document.getElementById("slideCounter");
+    const timeCounter = document.getElementById("timeCounter");
+    const speakerPanel = document.getElementById("speakerPanel");
+    let index = 0;
+    let notesVisible = false;
+
+    const durations = slides.map((slide) => Number(slide.dataset.duration || 0));
+    const totalDuration = durations.reduce((sum, value) => sum + value, 0);
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      return `${min}:${String(sec).padStart(2, "0")}`;
+    }
+
+    function elapsedBefore(currentIndex) {
+      return durations.slice(0, currentIndex).reduce((sum, value) => sum + value, 0);
+    }
+
+    function showSlide(nextIndex) {
+      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("active", slideIndex === index);
+        slide.querySelectorAll("video").forEach((video) => {
+          if (slideIndex === index) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      });
+
+      slideCounter.textContent = `${index + 1} / ${slides.length}`;
+      const elapsed = elapsedBefore(index);
+      const remaining = Math.max(0, totalDuration - elapsed);
+      timeCounter.textContent = formatTime(remaining);
+      progressBar.style.width = `${(elapsed / totalDuration) * 100}%`;
+
+      const notes = slides[index].querySelector(".notes");
+      speakerPanel.innerHTML = `<strong>Speaker notes (${durations[index]}s)</strong>${notes ? notes.innerHTML : ""}`;
+      speakerPanel.classList.toggle("visible", notesVisible);
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        showSlide(index + 1);
+      }
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        showSlide(index - 1);
+      }
+      if (event.key.toLowerCase() === "n") {
+        notesVisible = !notesVisible;
+        showSlide(index);
+      }
+      if (event.key.toLowerCase() === "f") {
+        document.querySelector(".deck").requestFullscreen?.();
+      }
+      if (event.key === "Home") {
+        showSlide(0);
+      }
+      if (event.key === "End") {
+        showSlide(slides.length - 1);
+      }
+    });
+
+    const initialSlide = Number(new URLSearchParams(window.location.search).get("slide") || "1") - 1;
+    showSlide(initialSlide);
+  </script>
+</body>
+</html>

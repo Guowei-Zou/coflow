@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making">
+    <title>CoFlow: Reference</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="nav-brand" href="index.html">CoFlow</a>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Overview</a>
+            <a href="method.html">Method</a>
+            <a href="results.html">Results</a>
+            <a href="conclusion.html">Conclusion</a>
+            <a href="video.html">video</a>
+            <a href="reference.html" class="active">reference</a>
+        </nav>
+    </div>
+
+    <main class="page-main">
+    <section id="resources" class="section-white">
+        <div class="container">
+            <h2>Resources</h2>
+            <div class="content">
+                <p>The GitHub repository contains the released CoFlow source code. Datasets are referenced from their original public sources.</p>
+
+                <div class="resource-list">
+                    <a class="resource-link" href="https://github.com/Guowei-Zou/coflow-release" target="_blank" rel="noopener">
+                        <i data-lucide="github"></i>
+                        <div>
+                            <strong>CoFlow GitHub Repository</strong>
+                            <span>Official source-code release with training, evaluation, experiment configs, and setup instructions.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://github.com/ling-pan/OMAR" target="_blank" rel="noopener">
+                        <i data-lucide="archive"></i>
+                        <div>
+                            <strong>MPE Datasets</strong>
+                            <span>Expert, Medium, Medium-Replay, and Random splits from the OMAR offline MARL benchmark.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://huggingface.co/datasets/Avada11/MADiff-Datasets" target="_blank" rel="noopener">
+                        <i data-lucide="hard-drive-download"></i>
+                        <div>
+                            <strong>MA-MuJoCo and SMAC Datasets</strong>
+                            <span>Public MADiff mirror of off-the-grid MARL datasets used for locomotion and StarCraft experiments.</span>
+                        </div>
+                    </a>
+
+                    <a class="resource-link" href="https://sites.google.com/view/og-marl" target="_blank" rel="noopener">
+                        <i data-lucide="network"></i>
+                        <div>
+                            <strong>OG-MARL Benchmark</strong>
+                            <span>Original off-the-grid MARL benchmark behind the MA-MuJoCo and SMAC offline splits.</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="gradient-divider">
+
+    <section class="section-white">
+        <div class="container">
+            <h2>Related Work</h2>
+            <div class="content">
+                <ul>
+                    <li><strong><a href="https://arxiv.org/abs/2305.17330" target="_blank" rel="noopener">MADiff</a></strong>: diffusion-based offline multi-agent trajectory generation.</li>
+                    <li><strong><a href="https://arxiv.org/abs/2302.00521" target="_blank" rel="noopener">OG-MARL</a></strong>: off-the-grid offline multi-agent benchmark suites.</li>
+                    <li><strong><a href="https://arxiv.org/abs/2111.11188" target="_blank" rel="noopener">OMAR</a></strong>: offline multi-agent actor-critic learning with first widely used MPE offline splits.</li>
+                    <li><strong><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a></strong>: the attention mechanism used as the basis for CVA.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CoFlow Project. All rights reserved.</p>
+        </div>
+    </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
