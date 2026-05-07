@@ -437,9 +437,21 @@
         }
 
         .resource-link span {
+            display: block;
             color: var(--muted);
             font-size: 0.93rem;
             line-height: 1.45;
+        }
+
+        .resource-link .resource-url {
+            margin-top: 8px;
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .resource-link .resource-url::after {
+            content: " \2192";
         }
 
         .rollout-intro {
