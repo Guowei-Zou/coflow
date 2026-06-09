@@ -27,7 +27,14 @@
             <h2>Qualitative Rollout Videos</h2>
             <p class="rollout-intro">Square 1080p single-rollout videos for selected benchmark tasks and dataset qualities. The previews are intentionally compact and load only video metadata until playback.</p>
 
-            <div class="rollout-group">
+            <div class="env-filter" role="tablist" aria-label="Filter rollout videos by environment">
+                <button type="button" class="env-btn" data-filter="all" role="tab" aria-selected="false">All</button>
+                <button type="button" class="env-btn is-active" data-filter="mpe" role="tab" aria-selected="true">MPE</button>
+                <button type="button" class="env-btn" data-filter="smac" role="tab" aria-selected="false">SMAC</button>
+                <button type="button" class="env-btn" data-filter="mamujoco" role="tab" aria-selected="false">MA-MuJoCo</button>
+            </div>
+
+            <div class="rollout-group" data-env="mpe">
                 <div class="rollout-group-header">
                     <div>
                         <h3>MPE</h3>
@@ -41,9 +48,9 @@
                         <div class="rollout-task-heading">Spread</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-spread">
-                        <video src="assets/videos/mpe/mpe_spread_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Spread Random rollout"></video>
-                        <h4>Spread · Random</h4>
-                        <p>Landmark coverage with weak coordination.</p>
+                        <video src="assets/videos/mpe/mpe_spread_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Spread Expert rollout"></video>
+                        <h4>Spread · Expert</h4>
+                        <p>Clean coverage with minimal overlap.</p>
                     </article>
                     <article class="rollout-card task-spread">
                         <video src="assets/videos/mpe/mpe_spread_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Spread Medium rollout"></video>
@@ -51,9 +58,9 @@
                         <p>Agents share landmarks more consistently.</p>
                     </article>
                     <article class="rollout-card task-spread">
-                        <video src="assets/videos/mpe/mpe_spread_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Spread Expert rollout"></video>
-                        <h4>Spread · Expert</h4>
-                        <p>Clean coverage with minimal overlap.</p>
+                        <video src="assets/videos/mpe/mpe_spread_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Spread Random rollout"></video>
+                        <h4>Spread · Random</h4>
+                        <p>Landmark coverage with weak coordination.</p>
                     </article>
                         </div>
                     </div>
@@ -61,9 +68,9 @@
                         <div class="rollout-task-heading">Tag</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-tag">
-                        <video src="assets/videos/mpe/mpe_tag_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Random rollout"></video>
-                        <h4>Tag · Random</h4>
-                        <p>Predators move with little pursuit structure.</p>
+                        <video src="assets/videos/mpe/mpe_tag_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Expert rollout"></video>
+                        <h4>Tag · Expert</h4>
+                        <p>Coordinated pressure around the prey.</p>
                     </article>
                     <article class="rollout-card task-tag">
                         <video src="assets/videos/mpe/mpe_tag_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Medium rollout"></video>
@@ -71,9 +78,9 @@
                         <p>Partial chasing and obstacle-aware motion.</p>
                     </article>
                     <article class="rollout-card task-tag">
-                        <video src="assets/videos/mpe/mpe_tag_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Expert rollout"></video>
-                        <h4>Tag · Expert</h4>
-                        <p>Coordinated pressure around the prey.</p>
+                        <video src="assets/videos/mpe/mpe_tag_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Random rollout"></video>
+                        <h4>Tag · Random</h4>
+                        <p>Predators move with little pursuit structure.</p>
                     </article>
                         </div>
                     </div>
@@ -81,9 +88,9 @@
                         <div class="rollout-task-heading">World</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-world">
-                        <video src="assets/videos/mpe/mpe_world_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Random rollout"></video>
-                        <h4>World · Random</h4>
-                        <p>Mixed agents explore with noisy behavior.</p>
+                        <video src="assets/videos/mpe/mpe_world_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Expert rollout"></video>
+                        <h4>World · Expert</h4>
+                        <p>Structured movement through food and forests.</p>
                     </article>
                     <article class="rollout-card task-world">
                         <video src="assets/videos/mpe/mpe_world_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Medium rollout"></video>
@@ -91,16 +98,16 @@
                         <p>More stable navigation and interactions.</p>
                     </article>
                     <article class="rollout-card task-world">
-                        <video src="assets/videos/mpe/mpe_world_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Expert rollout"></video>
-                        <h4>World · Expert</h4>
-                        <p>Structured movement through food and forests.</p>
+                        <video src="assets/videos/mpe/mpe_world_random_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Random rollout"></video>
+                        <h4>World · Random</h4>
+                        <p>Mixed agents explore with noisy behavior.</p>
                     </article>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="rollout-group">
+            <div class="rollout-group" data-env="smac" hidden>
                 <div class="rollout-group-header">
                     <div>
                         <h3>SMAC</h3>
@@ -114,9 +121,9 @@
                         <div class="rollout-task-heading">3m</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-3m">
-                        <video src="assets/videos/smac/smac_3m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 3m Poor rollout"></video>
-                        <h4>3m · Poor</h4>
-                        <p>Three marines with scattered target choice.</p>
+                        <video src="assets/videos/smac/smac_3m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 3m Good rollout"></video>
+                        <h4>3m · Good</h4>
+                        <p>Focused attacks produce a clean win.</p>
                     </article>
                     <article class="rollout-card task-3m">
                         <video src="assets/videos/smac/smac_3m_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 3m Medium rollout"></video>
@@ -124,9 +131,9 @@
                         <p>Marines begin to coordinate fire.</p>
                     </article>
                     <article class="rollout-card task-3m">
-                        <video src="assets/videos/smac/smac_3m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 3m Good rollout"></video>
-                        <h4>3m · Good</h4>
-                        <p>Focused attacks produce a clean win.</p>
+                        <video src="assets/videos/smac/smac_3m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 3m Poor rollout"></video>
+                        <h4>3m · Poor</h4>
+                        <p>Three marines with scattered target choice.</p>
                     </article>
                         </div>
                     </div>
@@ -134,9 +141,9 @@
                         <div class="rollout-task-heading">8m</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-8m">
-                        <video src="assets/videos/smac/smac_8m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 8m Poor rollout"></video>
-                        <h4>8m · Poor</h4>
-                        <p>Larger marine group with poor spacing.</p>
+                        <video src="assets/videos/smac/smac_8m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 8m Good rollout"></video>
+                        <h4>8m · Good</h4>
+                        <p>Dense formation with coordinated damage.</p>
                     </article>
                     <article class="rollout-card task-8m">
                         <video src="assets/videos/smac/smac_8m_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 8m Medium rollout"></video>
@@ -144,9 +151,9 @@
                         <p>Improved grouping and target pressure.</p>
                     </article>
                     <article class="rollout-card task-8m">
-                        <video src="assets/videos/smac/smac_8m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 8m Good rollout"></video>
-                        <h4>8m · Good</h4>
-                        <p>Dense formation with coordinated damage.</p>
+                        <video src="assets/videos/smac/smac_8m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 8m Poor rollout"></video>
+                        <h4>8m · Poor</h4>
+                        <p>Larger marine group with poor spacing.</p>
                     </article>
                         </div>
                     </div>
@@ -154,9 +161,9 @@
                         <div class="rollout-task-heading">2s3z</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-2s3z">
-                        <video src="assets/videos/smac/smac_2s3z_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 2s3z Poor rollout"></video>
-                        <h4>2s3z · Poor</h4>
-                        <p>Mixed stalker-zealot control breaks down.</p>
+                        <video src="assets/videos/smac/smac_2s3z_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 2s3z Good rollout"></video>
+                        <h4>2s3z · Good</h4>
+                        <p>Stalkers and zealots coordinate the fight.</p>
                     </article>
                     <article class="rollout-card task-2s3z">
                         <video src="assets/videos/smac/smac_2s3z_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 2s3z Medium rollout"></video>
@@ -164,9 +171,9 @@
                         <p>Partial kiting and better engagement timing.</p>
                     </article>
                     <article class="rollout-card task-2s3z">
-                        <video src="assets/videos/smac/smac_2s3z_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 2s3z Good rollout"></video>
-                        <h4>2s3z · Good</h4>
-                        <p>Stalkers and zealots coordinate the fight.</p>
+                        <video src="assets/videos/smac/smac_2s3z_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 2s3z Poor rollout"></video>
+                        <h4>2s3z · Poor</h4>
+                        <p>Mixed stalker-zealot control breaks down.</p>
                     </article>
                         </div>
                     </div>
@@ -174,9 +181,9 @@
                         <div class="rollout-task-heading">5m_vs_6m</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-5m6m">
-                        <video src="assets/videos/smac/smac_5m_vs_6m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Poor rollout"></video>
-                        <h4>5m_vs_6m · Poor</h4>
-                        <p>Outnumbered marines fail to trade well.</p>
+                        <video src="assets/videos/smac/smac_5m_vs_6m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Good rollout"></video>
+                        <h4>5m_vs_6m · Good</h4>
+                        <p>Coordinated micro overcomes the extra enemy.</p>
                     </article>
                     <article class="rollout-card task-5m6m">
                         <video src="assets/videos/smac/smac_5m_vs_6m_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Medium rollout"></video>
@@ -184,16 +191,16 @@
                         <p>Better focus-fire under disadvantage.</p>
                     </article>
                     <article class="rollout-card task-5m6m">
-                        <video src="assets/videos/smac/smac_5m_vs_6m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Good rollout"></video>
-                        <h4>5m_vs_6m · Good</h4>
-                        <p>Coordinated micro overcomes the extra enemy.</p>
+                        <video src="assets/videos/smac/smac_5m_vs_6m_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Poor rollout"></video>
+                        <h4>5m_vs_6m · Poor</h4>
+                        <p>Outnumbered marines fail to trade well.</p>
                     </article>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="rollout-group">
+            <div class="rollout-group" data-env="mamujoco" hidden>
                 <div class="rollout-group-header">
                     <div>
                         <h3>MA-MuJoCo</h3>
@@ -207,9 +214,9 @@
                         <div class="rollout-task-heading">2-Ant</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-2ant">
-                        <video src="assets/videos/mamujoco/mamujoco_2ant_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Poor rollout"></video>
-                        <h4>2-Ant · Poor</h4>
-                        <p>Leg groups move without stable rhythm.</p>
+                        <video src="assets/videos/mamujoco/mamujoco_2ant_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Good rollout"></video>
+                        <h4>2-Ant · Good</h4>
+                        <p>Coordinated legs sustain locomotion.</p>
                     </article>
                     <article class="rollout-card task-2ant">
                         <video src="assets/videos/mamujoco/mamujoco_2ant_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Medium rollout"></video>
@@ -217,9 +224,9 @@
                         <p>Improved balance and directional motion.</p>
                     </article>
                     <article class="rollout-card task-2ant">
-                        <video src="assets/videos/mamujoco/mamujoco_2ant_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Good rollout"></video>
-                        <h4>2-Ant · Good</h4>
-                        <p>Coordinated legs sustain locomotion.</p>
+                        <video src="assets/videos/mamujoco/mamujoco_2ant_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Poor rollout"></video>
+                        <h4>2-Ant · Poor</h4>
+                        <p>Leg groups move without stable rhythm.</p>
                     </article>
                         </div>
                     </div>
@@ -227,9 +234,9 @@
                         <div class="rollout-task-heading">4-Ant</div>
                         <div class="rollout-grid">
                     <article class="rollout-card task-4ant">
-                        <video src="assets/videos/mamujoco/mamujoco_4ant_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 4-Ant Poor rollout"></video>
-                        <h4>4-Ant · Poor</h4>
-                        <p>Four controllers produce unstable movement.</p>
+                        <video src="assets/videos/mamujoco/mamujoco_4ant_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 4-Ant Good rollout"></video>
+                        <h4>4-Ant · Good</h4>
+                        <p>Stable whole-body locomotion with four agents.</p>
                     </article>
                     <article class="rollout-card task-4ant">
                         <video src="assets/videos/mamujoco/mamujoco_4ant_medium_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 4-Ant Medium rollout"></video>
@@ -237,9 +244,9 @@
                         <p>Joint coordination becomes more reliable.</p>
                     </article>
                     <article class="rollout-card task-4ant">
-                        <video src="assets/videos/mamujoco/mamujoco_4ant_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 4-Ant Good rollout"></video>
-                        <h4>4-Ant · Good</h4>
-                        <p>Stable whole-body locomotion with four agents.</p>
+                        <video src="assets/videos/mamujoco/mamujoco_4ant_poor_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 4-Ant Poor rollout"></video>
+                        <h4>4-Ant · Poor</h4>
+                        <p>Four controllers produce unstable movement.</p>
                     </article>
                         </div>
                     </div>
@@ -257,6 +264,25 @@
 
     <script>
         lucide.createIcons();
+
+        (function () {
+            const buttons = document.querySelectorAll('.env-filter .env-btn');
+            const groups = document.querySelectorAll('.rollout-group[data-env]');
+            function applyFilter(filter) {
+                groups.forEach(function (g) {
+                    g.hidden = !(filter === 'all' || g.dataset.env === filter);
+                });
+                buttons.forEach(function (b) {
+                    const active = b.dataset.filter === filter;
+                    b.classList.toggle('is-active', active);
+                    b.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+            }
+            buttons.forEach(function (b) {
+                b.addEventListener('click', function () { applyFilter(b.dataset.filter); });
+            });
+            applyFilter('mpe');
+        })();
     </script>
 </body>
 </html>
