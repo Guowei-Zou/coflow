@@ -1026,3 +1026,15 @@
 /* Current paper video gallery: readable task views on desktop and mobile. */
 .paper-video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 700px) { .paper-video-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Group trajectories by environment, keeping each task in one column. */
+.environment-heading { margin-top: 32px; }
+.environment-video-row { display:grid; gap:14px; margin:18px 0 30px; }
+.mpe-video-row { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.smac-video-row { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.video-quality-label { display:block; margin:10px 2px 4px; font-size:0.78rem; color:var(--muted); }
+.video-quality { display:block; width:100%; margin-top:5px; padding:8px 4px; border:1px solid var(--line); border-radius:5px; background:white; color:var(--text); }
+@media (max-width:700px) {
+ .environment-video-row { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; }
+ .environment-video-row .featured-video-card { flex:0 0 78%; scroll-snap-align:start; }
+}
