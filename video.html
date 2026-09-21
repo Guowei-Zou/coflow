@@ -6,7 +6,19 @@
     <meta name="description" content="CoFlow: Coordinated Few-Step Flow for Offline Multi-Agent Decision Making">
     <title>CoFlow: Video</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260921-gallery2">
+<style>
+/* Keep the environment rows intact even if an older shared stylesheet is cached. */
+.environment-video-row { display:grid; gap:14px; margin:18px 0 30px; }
+.mpe-video-row { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.smac-video-row { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.environment-video-row > article { min-width:0; }
+@media (max-width:700px) {
+ .environment-video-row { display:grid; overflow-x:auto; padding-bottom:12px; }
+ .mpe-video-row { grid-template-columns:repeat(3,minmax(220px,1fr)); }
+ .smac-video-row { grid-template-columns:repeat(4,minmax(220px,1fr)); }
+}
+</style>
 </head>
 <body>
     <div class="navbar">
@@ -131,6 +143,6 @@
             applyFilter('mpe');
         })();
     </script>
-<script src="scripts/video-gallery.js"></script>
+<script src="scripts/video-gallery.js?v=20260921-gallery2"></script>
 </body>
 </html>
