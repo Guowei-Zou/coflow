@@ -16,8 +16,8 @@
             <a href="method.html">Method</a>
             <a href="results.html">Results</a>
             <a href="conclusion.html">Conclusion</a>
-            <a href="video.html">video</a>
-            <a href="reference.html">reference</a>
+            <a href="video.html">Videos</a>
+            <a href="reference.html">References</a>
         </nav>
     </div>
 
@@ -53,46 +53,41 @@
 
     <hr class="gradient-divider">
 
-    <section class="section-alternate">
-        <div class="container">
-            <h2>Selected Rollout Loops</h2>
-
-            <div class="featured-video-grid">
-                <article class="featured-video-card task-tag">
-                    <video src="assets/videos/mpe/mpe_tag_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE Tag Expert rollout loop"></video>
-                    <h3>Tag · Expert</h3>
-                    <p>Coordinated pressure around the prey.</p>
-                </article>
-
-                <article class="featured-video-card task-world">
-                    <video src="assets/videos/mpe/mpe_world_expert_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MPE World Expert rollout loop"></video>
-                    <h3>World · Expert</h3>
-                    <p>Structured movement through food and forests.</p>
-                </article>
-
-                <article class="featured-video-card task-5m6m">
-                    <video src="assets/videos/smac/smac_5m_vs_6m_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m Good rollout loop"></video>
-                    <h3>5m_vs_6m · Good</h3>
-                    <p>Coordinated micro overcomes the extra enemy.</p>
-                </article>
-
-                <article class="featured-video-card task-2ant">
-                    <video src="assets/videos/mamujoco/mamujoco_2ant_good_1080p.mp4" controls autoplay muted playsinline loop preload="metadata" aria-label="MA-MuJoCo 2-Ant Good rollout loop"></video>
-                    <h3>2-Ant · Good</h3>
-                    <p>Coordinated legs sustain locomotion.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <hr class="gradient-divider">
+<section class="section">
+<div class="container">
+<h2>Selected Trajectory Videos</h2>
+<div class="content">
+<p>Illustrative clips corresponding to the updated paper. <a href="video.html">View all five tasks and paper comparisons.</a></p>
+<div class="featured-video-grid">
+<article class="featured-video-card">
+<video src="assets/videos/current/spread.mp4" poster="assets/videos/current/spread.jpg" controls muted playsinline loop preload="metadata" aria-label="MPE Spread · Expert trajectory"></video>
+<h3>MPE Spread · Expert</h3>
+<p>Agents move to cover landmarks.</p>
+</article>
+<article class="featured-video-card">
+<video src="assets/videos/current/tag.mp4" poster="assets/videos/current/tag.jpg" controls muted playsinline loop preload="metadata" aria-label="MPE Tag · Expert trajectory"></video>
+<h3>MPE Tag · Expert</h3>
+<p>Predator–prey interactions around obstacles.</p>
+</article>
+<article class="featured-video-card">
+<video src="assets/videos/current/8m.mp4" poster="assets/videos/current/8m.jpg" controls muted playsinline loop preload="metadata" aria-label="SMAC 8m · Good trajectory"></video>
+<h3>SMAC 8m · Good</h3>
+<p>Eight allied marines face eight enemy marines.</p>
+</article>
+<article class="featured-video-card">
+<video src="assets/videos/current/5m6m.mp4" poster="assets/videos/current/5m6m.jpg" controls muted playsinline loop preload="metadata" aria-label="SMAC 5m_vs_6m · Good trajectory"></video>
+<h3>SMAC 5m_vs_6m · Good</h3>
+<p>Five allied marines face six enemy marines.</p>
+</article>
+</div>
+</div>
+</div>
+</section>    <hr class="gradient-divider">
 
     <section class="section">
         <div class="container">
             <div class="content">
-                <div class="tldr">
-                    <strong>TL;DR:</strong> CoFlow learns a <strong>natively joint-coupled averaged velocity field</strong> for offline multi-agent reinforcement learning. It combines <span class="highlight">Coordinated Velocity Attention</span>, <span class="highlight">adaptive coordination gating</span>, and a <span class="highlight">finite-difference consistency surrogate</span> so coordinated multi-agent trajectories can be generated in 1--3 denoising steps without distilling a joint teacher into independent agents.
-                </div>
+                <div class="tldr"><strong>TL;DR:</strong> CoFlow directly learns a joint averaged-velocity field for cooperative one-step and few-step generation. Coordinated Velocity Attention incorporates teammate information, while finite-difference consistency training reduces training cost. The updated experiments cover MPE and SMAC under centralized and decentralized execution.</div>
             </div>
         </div>
     </section>
@@ -106,7 +101,7 @@
                 <div class="media-container">
                     <img src="assets/overview.png" alt="CoFlow overview and motivation">
                     <div class="caption">
-                        CoFlow targets the quality-efficiency dilemma in offline multi-agent trajectory generation. Existing diffusion methods preserve coordination but require many denoising steps; existing few-step routes accelerate inference but weaken cross-agent coupling. CoFlow occupies the Pareto region where few-step inference and coordination preservation coexist.
+                        Multi-step generation incurs repeated model evaluations. Distillation reduces sampling steps but may weaken cross-agent dependencies. CoFlow directly learns a coupled joint velocity field for few-step generation, with CVA for cooperation and finite differences for efficient training.
                     </div>
                 </div>
             </div>

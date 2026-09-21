@@ -16,126 +16,79 @@
             <a href="method.html">Method</a>
             <a href="results.html" class="active">Results</a>
             <a href="conclusion.html">Conclusion</a>
-            <a href="video.html">video</a>
-            <a href="reference.html">reference</a>
+            <a href="video.html">Videos</a>
+            <a href="reference.html">References</a>
         </nav>
     </div>
 
     <main class="page-main">
-    <section id="results" class="section">
-        <div class="container">
-            <h2>Benchmark Results</h2>
-            <div class="content">
-                <div class="research-question">
-                    RQ1: Can CoFlow match or exceed strong offline MARL baselines across continuous and discrete benchmarks?
-                </div>
-
-                <p><strong>Answer:</strong> Yes. CoFlow-C is best on most table entries, while CoFlow-D remains competitive under decentralized execution. The gains are most visible on coordination-heavy MPE tasks.</p>
-
-                <h3>Main Result Tables</h3>
-                <p class="table-note">Full result tables are inserted as screenshots. Bold marks the best method in each row, underline marks the second-best method, and tables scroll horizontally on narrow screens.</p>
-
-                <div class="paper-table-card">
-                    <div class="paper-table-title">Table 1: MPE</div>
-                    <p class="paper-table-caption">Continuous-action cooperative benchmark on Spread, Tag, and World.</p>
-                    <div class="table-wrap table-image-wrap">
-                        <img class="paper-table-image" src="assets/table_mpe.png" alt="Full MPE performance table from the CoFlow paper">
-                    </div>
-                </div>
-
-                <div class="paper-table-card">
-                    <div class="paper-table-title">Table 2: SMAC</div>
-                    <p class="paper-table-caption">Discrete-action StarCraft benchmark with partial observability.</p>
-                    <div class="table-wrap table-image-wrap">
-                        <img class="paper-table-image" src="assets/table_smac.png" alt="Full SMAC performance table from the CoFlow paper">
-                    </div>
-                </div>
-
-                <div class="paper-table-card">
-                    <div class="paper-table-title">Table 3: MA-MuJoCo</div>
-                    <p class="paper-table-caption">Continuous-action locomotion benchmark on 2xAnt and 4xAnt.</p>
-                    <div class="table-wrap table-image-wrap">
-                        <img class="paper-table-image" src="assets/table_mamujoco.png" alt="Full MA-MuJoCo performance table from the CoFlow paper">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <hr class="gradient-divider">
-
-    <section id="coordination" class="section-alternate">
-        <div class="container">
-            <h2>Coordination Evidence</h2>
-            <div class="content">
-                <div class="research-question">
-                    RQ2: Do the return gains flow through inter-agent coordination rather than stronger per-agent capacity?
-                </div>
-
-                <p><strong>Answer:</strong> Yes. Scaling the CVA gate produces a dose-response effect in both reward and landmark coverage, and disabling CVA hurts every tested MPE task.</p>
-
-                <div class="media-container">
-                    <img src="assets/coordination_evidence.png" alt="CVA coordination evidence">
-                    <div class="caption">
-                        CVA gate scans show monotonic improvements in reward and landmark coverage. Direct CVA-off ablations confirm that the gains come from cross-agent information flow.
-                    </div>
-                </div>
-
-                <div class="media-container">
-                    <img src="assets/attention_weights.png" alt="Learned CVA attention weights">
-                    <div class="caption">
-                        Learned attention matrices adapt to task structure: symmetric mixing in Spread, predator-focused exchange in Tag, and role-aware blocks in SMAC.
-                    </div>
-                </div>
-
-                <div class="media-container">
-                    <img src="assets/coflow_diagram.png" alt="CoFlow centralized training and decentralized execution diagram">
-                    <div class="caption">
-                        CTDE view from the paper: centralized training uses all agents' observations, while decentralized execution masks other agents and preserves coordination through learned CVA patterns.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <hr class="gradient-divider">
-
-    <section id="fewstep" class="section">
-        <div class="container">
-            <h2>Few-Step Inference</h2>
-            <div class="content">
-                <div class="research-question">
-                    RQ3: When is single-pass inference enough?
-                </div>
-
-                <p><strong>Answer:</strong> On most configurations, one denoising step is already within the best 1--10 step performance range. CoFlow-base, which removes the finite-difference consistency surrogate, needs more refinement steps and is less stable at k = 1.</p>
-
-                <div class="grid two">
-                    <div class="card">
-                        <h3>Inference Budget</h3>
-                        <p>CoFlow generally saturates within 1--3 steps, including both centralized and decentralized execution variants.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Efficiency Driver</h3>
-                        <p>The finite-difference surrogate compresses multi-step refinement into the learned averaged velocity field.</p>
-                    </div>
-                </div>
-
-                <div class="media-container">
-                    <img src="assets/step_curve_mpe.png" alt="MPE denoising-step sweep">
-                    <div class="caption">MPE denoising-step sweep across tasks and data qualities.</div>
-                </div>
-
-                <div class="media-container">
-                    <img src="assets/stat6_kstep_vs_best.png" alt="Per-configuration k-step reward versus best observed reward">
-                    <div class="caption">
-                        Per-configuration scatter from the paper: most CoFlow-C and CoFlow-D points sit near the diagonal already at low denoising budgets.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+<section class="section">
+<div class="container">
+<h2>Benchmark Results</h2>
+<div class="content">
+<p>We evaluate centralized and decentralized CoFlow on 48 configurations across MPE and SMAC. CoFlow-C improves over our reproduced MADiff-C baseline by <strong>11.2%</strong>, averaging relative gains equally across the two benchmark suites.</p>
+<p>The table below is taken directly from the updated paper. MPE reports OMAR-normalized scores; SMAC reports episode return. Click any figure to inspect it at full resolution.</p>
+<div class="media-container"><a href="assets/main_results.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/main_results.png" alt="Table 1. Updated MPE and SMAC results. Bold and underline indicate the best and second-best scores in each row."></a>
+<div class="caption">Table 1. Updated MPE and SMAC results. Bold and underline indicate the best and second-best scores in each row.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<h2>Coordination Evidence</h2>
+<div class="content">
+<p>The paper examines how CVA strength relates to reward, landmark coverage, and the effect of disabling cross-agent attention. Full CVA improves normalized scores by 165.1% on average over the same model with cross-agent attention disabled.</p>
+<div class="media-container"><a href="assets/coordination_evidence.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/coordination_evidence.png" alt="Figure 3. CVA scale, landmark coverage, and attention ablation in MPE."></a>
+<div class="caption">Figure 3. CVA scale, landmark coverage, and attention ablation in MPE.</div>
+</div>
+<div class="media-container"><a href="assets/cva_ablation.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/cva_ablation.png" alt="Figure 4. Mechanism ablations: full CVA, self-only attention, fixed gating, and independent generation."></a>
+<div class="caption">Figure 4. Mechanism ablations: full CVA, self-only attention, fixed gating, and independent generation.</div>
+</div>
+<div class="media-container"><a href="assets/attention_weights.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/attention_weights.png" alt="Figure 5. Learned attention weights for MPE and SMAC tasks."></a>
+<div class="caption">Figure 5. Learned attention weights for MPE and SMAC tasks.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<h2>Training and Inference Efficiency</h2>
+<div class="content">
+<div class="grid two">
+<div class="card">
+<h3>1.78× faster training updates</h3>
+<p>Finite-difference training reduces peak GPU memory by 41.1% compared with the tested exact-derivative implementation.</p>
+</div>
+<div class="card">
+<h3>12.93× faster model sampling</h3>
+<p>One-step CoFlow is compared with 15-step DDIM sampling in the reproduced MADiff baseline.</p>
+</div>
+</div>
+<p>Training measurements use matched synthetic batches on an A100 and average across seven task shapes. Inference measurements cover model sampling only, excluding environment simulation and rendering.</p>
+<div class="media-container"><a href="assets/training_compute.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/training_compute.png" alt="Figure 6. Per-update training time and peak GPU memory across seven task shapes."></a>
+<div class="caption">Figure 6. Per-update training time and peak GPU memory across seven task shapes.</div>
+</div>
+<div class="media-container"><a href="assets/inference_keyframes.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/inference_keyframes.png" alt="Figure 7. MPE-Spread and SMAC-8m trajectories with accumulated model-sampling time."></a>
+<div class="caption">Figure 7. MPE-Spread and SMAC-8m trajectories with accumulated model-sampling time.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<h2>Few-Step Performance</h2>
+<div class="content">
+<p>The updated heatmap shows performance across sampling budgets for CoFlow-C, CoFlow-D, CoFlow-base-C, and CoFlow-base-D. One or a few steps achieve strong performance in most configurations; some settings benefit from additional refinement.</p>
+<div class="media-container"><a href="assets/stat4_heatmap.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/stat4_heatmap.png" alt="Figure 9. MPE and SMAC performance versus denoising-step budget, normalized by each row’s peak."></a>
+<div class="caption">Figure 9. MPE and SMAC performance versus denoising-step budget, normalized by each row’s peak.</div>
+</div>
+<div class="media-container"><a href="assets/steps_to_threshold.png" target="_blank" rel="noopener"><img loading="lazy" src="assets/steps_to_threshold.png" alt="Figure 11. Steps needed to reach target percentages of the offline dataset mean."></a>
+<div class="caption">Figure 11. Steps needed to reach target percentages of the offline dataset mean.</div>
+</div>
+</div>
+</div>
+</section>
     <footer>
         <div class="container">
             <p>&copy; 2026 CoFlow Project. All rights reserved.</p>

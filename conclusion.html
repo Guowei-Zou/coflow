@@ -16,36 +16,36 @@
             <a href="method.html">Method</a>
             <a href="results.html">Results</a>
             <a href="conclusion.html" class="active">Conclusion</a>
-            <a href="video.html">video</a>
-            <a href="reference.html">reference</a>
+            <a href="video.html">Videos</a>
+            <a href="reference.html">References</a>
         </nav>
     </div>
 
     <main class="page-main">
-    <section id="conclusion" class="section-alternate">
-        <div class="container">
-            <h2>Conclusion</h2>
-            <div class="content">
-                <p>CoFlow shows that few-step multi-agent generation does not have to trade away coordination. By placing inter-agent coupling directly inside the averaged velocity field, the model can generate coordinated trajectories in one to a few denoising steps without distilling a joint teacher into independent agents.</p>
-
-                <div class="grid">
-                    <div class="card">
-                        <h3>Coordination Lives in the Model</h3>
-                        <p>CVA and adaptive gates keep cross-agent information flow active during generation instead of relying on a long sampling loop to recover cooperation.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Few Steps Are Enough</h3>
-                        <p>Across MPE, MA-MuJoCo, and SMAC, CoFlow reaches strong return quality with a one-to-three-step inference budget under both centralized and decentralized execution.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Training Stays Practical</h3>
-                        <p>The finite-difference consistency surrogate avoids memory-heavy JVP backpropagation, making consistency-regularized joint flow training feasible at multi-agent scale.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+<section class="section">
+<div class="container">
+<h2>Conclusion</h2>
+<div class="content">
+<p>CoFlow combines a joint averaged-velocity model, cross-agent attention, and efficient consistency training to support cooperative one-step and few-step generation in offline multi-agent reinforcement learning.</p>
+<div class="grid">
+<div class="card">
+<h3>Joint Generation</h3>
+<p>Learn joint trajectories directly, without a separate teacher-distillation stage.</p>
+</div>
+<div class="card">
+<h3>Cooperation</h3>
+<p>CVA uses teammate trajectory information during each velocity prediction.</p>
+</div>
+<div class="card">
+<h3>Efficient Training</h3>
+<p>Finite differences lower the consistency-training cost of the joint model.</p>
+</div>
+</div>
+<p>Experiments cover MPE and SMAC under centralized and decentralized execution. Larger teams and broader domains remain directions for future evaluation.</p>
+<p><a href="results.html">Explore the updated results</a> · <a href="video.html">View trajectory videos</a></p>
+</div>
+</div>
+</section>
     <footer>
         <div class="container">
             <p>&copy; 2026 CoFlow Project. All rights reserved.</p>
