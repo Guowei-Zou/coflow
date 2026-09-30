@@ -7,10 +7,19 @@
     <title>CoFlow: Results</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="styles.css?v=20260921-gallery2">
+<style id="poinfra-navigation-style">
+/* POInfra parent navigation remains visible at every screen width. */
+.poinfra-trail{display:flex;align-items:center;gap:12px;flex:0 0 auto;white-space:nowrap}
+.poinfra-trail .poinfra-home{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0;border:0;font-size:16px;font-weight:650;line-height:1.2;letter-spacing:0;text-decoration:none;color:inherit}
+.poinfra-home img{display:block;width:26px;height:26px;max-width:none;margin:0;border-radius:5px;object-fit:contain}
+.poinfra-home:hover{opacity:.8}.poinfra-home:focus-visible{outline:2px solid #f28c18;outline-offset:4px;border-radius:4px}
+.poinfra-divider{opacity:.45;font-size:20px;font-weight:400}.poinfra-current{font-weight:700;white-space:nowrap;color:inherit;text-decoration:none}
+@media(max-width:600px){.poinfra-trail{gap:8px}.poinfra-trail .poinfra-home{font-size:14px}.poinfra-home img{width:23px;height:23px}.poinfra-trail .brand,.poinfra-trail .nav-brand,.poinfra-trail .nav-logo,.poinfra-current{font-size:16px}}
+.navbar{gap:20px}.navbar .nav-brand{padding:0}.navbar>nav{min-width:0;overflow-x:auto}@media(max-width:900px){.navbar{flex-wrap:wrap;height:auto;justify-content:flex-start;gap:0}.navbar>nav{flex-basis:100%;width:100%;justify-content:flex-start}}</style>
 </head>
 <body>
     <div class="navbar">
-        <a class="nav-brand" href="index.html">CoFlow</a>
+        <div class="poinfra-trail"><a class="poinfra-home" href="https://github.com/POInfra-AI/POInfra" aria-label="POInfra research hub" title="POInfra research hub"><img src="poinfra-icon.png" alt="" width="26" height="26"><span>POInfra</span></a><span class="poinfra-divider" aria-hidden="true">/</span><a class="nav-brand" href="index.html">CoFlow</a></div>
         <nav aria-label="Main navigation">
             <a href="index.html">Overview</a>
             <a href="method.html">Method</a>
